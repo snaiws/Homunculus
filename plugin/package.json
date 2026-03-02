@@ -1,0 +1,14 @@
+{
+  "name": "@homunculus/core",
+  "version": "0.1.0",
+  "description": "Homunculus core plugin for OpenClaw",
+  "type": "module",
+  "openclaw": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "devDependencies": {
+    "openclaw": "*"
+  }
+}

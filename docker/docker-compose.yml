@@ -1,0 +1,47 @@
+# ============================================================
+# Homunculus - Docker Compose
+# ============================================================
+# 사용법:
+#   1. cp config/.env.example config/.env
+#   2. config/.env 파일에 API 키, Discord 토큰 등 설정
+#   3. docker-compose -f docker/docker-compose.yml up --build
+# ============================================================
+
+services:
+  homunculus:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: homunculus:local
+    container_name: homunculus
+    environment:
+      HOME: /home/node
+      TERM: xterm-256color
+      # --- Gateway ---
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN:-change-me}
+      OPENCLAW_GATEWAY_BIND: ${OPENCLAW_GATEWAY_BIND:-lan}
+      OPENCLAW_GATEWAY_PORT: "18789"
+      # --- LLM ---
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-anthropic/claude-sonnet-4-5}
+      # --- Discord ---
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN:-}
+      DISCORD_ENABLED: ${DISCORD_ENABLED:-true}
+      # --- Identity ---
+      HOMUNCULUS_NAME: ${HOMUNCULUS_NAME:-호문쿨루스}
+      HOMUNCULUS_EMOJI: ${HOMUNCULUS_EMOJI:-🧪}
+      # --- Logging ---
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    volumes:
+      # Persist state across restarts
+      - homunculus-state:/home/node/.openclaw
+    ports:
+      - "${OPENCLAW_GATEWAY_PORT:-18789}:18789"
+      - "${OPENCLAW_BRIDGE_PORT:-18790}:18790"
+    init: true
+    restart: unless-stopped
+
+volumes:
+  homunculus-state:

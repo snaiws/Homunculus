@@ -1,0 +1,25 @@
+# ============================================================
+# Homunculus Instance Identification
+# ============================================================
+# 각 호문쿨루스 인스턴스는 고유한 ID를 가지며,
+# 분산 진화(Phase 4) 시 자기 브랜치 네임스페이스를 사용합니다.
+#
+# 배경: 여러 호문쿨루스 인스턴스가 각자의 환경에서 독립적으로 운영되며,
+#       각자 개선안을 PR로 제출할 수 있어야 합니다.
+# 근거: git 브랜치 충돌 방지 + 인스턴스 식별 + 타임존 기반 스케줄링
+# ============================================================
+
+instance:
+  id: "seoul-01"                          # 고유 식별자 (변경 시 브랜치 접두사도 변경됨)
+  name: "호문쿨루스-서울"                    # 표시 이름
+  location: "Asia/Seoul"                   # 타임존 겸 위치 식별
+
+  branch_prefix: "homunculus/seoul-01"     # git 브랜치 접두사
+  repo:
+    origin: ""                             # GitHub repo URL (사용자가 설정)
+    main_branch: "main"
+
+  capabilities:
+    can_self_modify: true                  # 자기 코드 수정 가능 (Phase 2+)
+    can_create_pr: true                    # PR 생성 가능 (Phase 2+)
+    can_review_pr: false                   # PR 리뷰 가능 (Phase 4+)

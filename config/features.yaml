@@ -1,0 +1,66 @@
+# ============================================================
+# Homunculus Feature Permissions
+# ============================================================
+# 이 파일은 install.sh 가 사용자 동의를 받아 생성합니다.
+# 호문쿨루스는 이 파일을 읽고, 허용된 기능만 사용합니다.
+#
+# 배경: 자기 수정이 가능한 에이전트에게 "무엇이 허용되는가"를
+#       사용자가 명시적으로 동의한 기록이 필요합니다.
+# 근거: 사용자 동의 없는 자율 행동은 신뢰를 깨뜨립니다.
+#       이 파일은 호문쿨루스와 사용자 간의 "계약서"입니다.
+# ============================================================
+
+# install.sh 가 이 파일을 자동 생성합니다.
+# 수동 편집도 가능합니다.
+
+version: 1
+installed_at: ""       # install.sh 가 채움
+installed_by: "user"
+
+# --- 채널 ---
+channels:
+  discord:
+    enabled: false
+    # 사용자가 Discord 봇을 설정했는가?
+
+# --- LLM ---
+llm:
+  provider: ""         # anthropic | openai | gemini
+  # 어떤 LLM 프로바이더를 사용하는가?
+
+# --- 자율 기능 (Phase 2+) ---
+autonomy:
+  self_modify:
+    enabled: false
+    # 호문쿨루스가 자신의 코드를 수정할 수 있는가?
+    # true: git branch에서 코드 수정 가능 (항상 브랜치, 항상 커밋)
+    # false: 읽기 전용 모드
+
+  create_pr:
+    enabled: false
+    # 호문쿨루스가 GitHub에 PR을 생성할 수 있는가?
+    # true: 개선안을 PR로 제출
+    # false: 로컬 브랜치에서만 작업
+
+  auto_schedule:
+    enabled: false
+    # 호문쿨루스가 수면/기상 스케줄을 자동으로 관리하는가?
+    # true: directive에 따라 자동 수면/기상
+    # false: 항상 활성 상태
+
+  skill_management:
+    enabled: false
+    # 호문쿨루스가 스킬을 스스로 추가/삭제할 수 있는가?
+    # true: 대화로 새 스킬 생성 가능
+    # false: 수동으로만 스킬 관리
+
+# --- 리소스 제한 ---
+resources:
+  token_budget:
+    enabled: false
+    # 토큰 사용량을 추적하고 예산을 적용하는가?
+    daily_limit: 0     # 0 = 무제한
+
+  resource_monitoring:
+    enabled: false
+    # 디스크/메모리 사용량을 모니터링하는가?

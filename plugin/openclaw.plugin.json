@@ -1,0 +1,13 @@
+{
+  "id": "homunculus-core",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "instanceConfigPath": {
+        "type": "string",
+        "description": "Path to instance.yaml configuration file"
+      }
+    }
+  }
+}

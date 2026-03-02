@@ -1,0 +1,107 @@
+{
+  // ============================================================
+  // Homunculus - OpenClaw Gateway Configuration Template
+  // ============================================================
+  // 이 파일은 템플릿입니다. entrypoint.sh가 환경변수로 치환하여
+  // 실제 openclaw.json을 생성합니다.
+  // 직접 수정하지 마세요 — .env 파일을 수정하세요.
+  // ============================================================
+
+  // --- Environment Variables ---
+  // OpenClaw은 이 블록의 값을 프로세스 env에 주입하여
+  // 각 프로바이더 SDK가 키를 자동으로 찾도록 합니다.
+  env: {
+    ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY}",
+    OPENAI_API_KEY: "${OPENAI_API_KEY}",
+    GEMINI_API_KEY: "${GEMINI_API_KEY}",
+    shellEnv: { enabled: false }
+  },
+
+  // --- Gateway ---
+  gateway: {
+    mode: "local",
+    port: 18789,
+    bind: "lan",
+    auth: {
+      mode: "token",
+      token: "${OPENCLAW_GATEWAY_TOKEN}"
+    },
+    controlUi: { enabled: true, basePath: "/openclaw" }
+  },
+
+  // --- Identity ---
+  identity: {
+    name: "${HOMUNCULUS_NAME:-호문쿨루스}",
+    theme: "loyal familiar spirit dwelling in a flask",
+    emoji: "${HOMUNCULUS_EMOJI:-🧪}"
+  },
+
+  // --- Agent ---
+  agents: {
+    defaults: {
+      workspace: "/home/node/.openclaw/workspace",
+      model: {
+        primary: "${LLM_MODEL:-anthropic/claude-sonnet-4-5}"
+      },
+      heartbeat: { every: "30m", target: "last" }
+    },
+    list: [
+      { id: "main", default: true }
+    ]
+  },
+
+  // --- Channels ---
+  channels: {
+    discord: {
+      enabled: "${DISCORD_ENABLED:-true}",
+      token: "${DISCORD_BOT_TOKEN}",
+      dmPolicy: "pairing",
+      dm: {
+        enabled: true,
+        policy: "pairing"
+      },
+      groupPolicy: "allowlist",
+      guilds: {},
+      historyLimit: 20,
+      replyToMode: "off",
+      streaming: "partial",
+      textChunkLimit: 2000,
+      commands: { native: true }
+    }
+  },
+
+  // --- Plugins ---
+  plugins: {
+    enabled: true,
+    allow: ["homunculus-core"],
+    load: {
+      paths: ["/app/plugin"]
+    },
+    entries: {
+      "homunculus-core": {
+        enabled: true,
+        config: {
+          instanceConfigPath: "/app/config/instance.yaml"
+        }
+      }
+    }
+  },
+
+  // --- Skills ---
+  skills: {
+    allowBundled: [],
+    load: { extraDirs: [] }
+  },
+
+  // --- Session ---
+  session: {
+    dmScope: "per-channel-peer",
+    reset: { mode: "daily", atHour: 4, idleMinutes: 120 }
+  },
+
+  // --- Logging ---
+  logging: {
+    level: "${LOG_LEVEL:-info}",
+    consoleLevel: "${LOG_LEVEL:-info}"
+  }
+}

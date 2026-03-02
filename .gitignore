@@ -1,0 +1,25 @@
+# Environment (secrets)
+config/.env
+config/.env.bak
+.env
+
+# Node
+node_modules/
+dist/
+plugin/node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+homunculus-state/
+
+# Runtime generated
+workspace/BOOT_REPORT.md
